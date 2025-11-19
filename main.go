@@ -400,9 +400,18 @@ type formData struct {
 	hoursSpent   float64
 }
 
+func convertDateFormat(ddmmyyyy string) string {
+	// Convert DD/MM/YYYY to MM/DD/YYYY
+	parts := strings.Split(ddmmyyyy, "/")
+	if len(parts) == 3 {
+		return parts[1] + "/" + parts[0] + "/" + parts[2]
+	}
+	return ddmmyyyy
+}
+
 func submitToGoogleForm(data formData, formURL string) error {
 	formValues := url.Values{}
-	formValues.Add("entry.1426760171", data.date)
+	formValues.Add("entry.1426760171", convertDateFormat(data.date))
 	formValues.Add("entry.183897134", data.issueLink)
 	formValues.Add("entry.1622103326", data.issueTitle)
 	formValues.Add("entry.2088302179", data.progressNote)
