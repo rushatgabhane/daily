@@ -64,11 +64,11 @@ func initialModel(formURL string) model {
 
 	// Date
 	m.inputs[1] = textinput.New()
-	m.inputs[1].Placeholder = "MM/DD/YYYY"
+	m.inputs[1].Placeholder = "DD/MM/YYYY"
 	m.inputs[1].CharLimit = 10
 	m.inputs[1].Width = 60
 	m.inputs[1].Prompt = ""
-	m.inputs[1].SetValue(time.Now().Format("01/02/2006"))
+	m.inputs[1].SetValue(time.Now().Format("02/01/2006"))
 
 	// Issue Link
 	m.inputs[2] = textinput.New()
@@ -357,7 +357,7 @@ func (m model) View() string {
 		b.WriteString("  " + focusedStyle.Render("> Email") + "\n")
 		b.WriteString("  " + m.inputs[0].View() + "\n")
 	case 1:
-		b.WriteString("  " + focusedStyle.Render("> Date (MM/DD/YYYY)") + "\n")
+		b.WriteString("  " + focusedStyle.Render("> Date (DD/MM/YYYY)") + "\n")
 		b.WriteString("  " + m.inputs[1].View() + "\n")
 	case 2:
 		b.WriteString("  " + focusedStyle.Render("> GitHub Issue Link") + "\n")
