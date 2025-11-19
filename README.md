@@ -1,0 +1,80 @@
+# daily
+
+A sleek TUI for submitting daily reports.
+
+Built with [Bubble Tea](https://github.com/charmbracelet/bubbletea).
+
+## Features
+
+- **Wizard-style interface** - One field at a time for small terminals
+- Saves form URL after first use
+- Auto-fills your email from git config
+- Sets today's date by default
+- Fetches issue titles automatically using `gh` CLI (invisible to user)
+- Shows completed fields as you progress
+- Form validation
+
+## Prerequisites
+
+- Go 1.21 or later
+- `gh` CLI (GitHub CLI) - for auto-fetching issue titles
+  ```bash
+  brew install gh
+  gh auth login
+  ```
+
+## Installation
+
+```bash
+# Build and install
+make install
+
+# Or build locally
+make build
+```
+
+## Usage
+
+First time, you'll be asked for your Google Forms URL:
+
+```bash
+daily
+```
+
+The form URL will be saved to `~/.config/daily/config.json` and reused automatically.
+
+### How it works
+
+The tool presents fields one at a time in wizard-style:
+
+1. **Email** - Auto-filled from `git config user.email`
+2. **Date** - Defaults to today (MM/DD/YYYY format)
+3. **Issue Link** - GitHub issue URL (fetches title automatically)
+4. **Project** - Defaults to "N/A"
+5. **Progress Note** - Simple text input for your update
+6. **Hours Spent** - Number between 0-12
+7. **Submit** - Review and submit
+
+As you complete each field, it's shown in the "Completed" section above.
+
+### Navigation
+
+- `enter` - Move to next field
+- `ctrl+c` - Quit anytime
+
+## Development
+
+```bash
+# Run without installing
+make run
+
+# Build binary
+make build
+
+# Clean build artifacts
+make clean
+```
+
+## License
+
+MIT
