@@ -1,12 +1,13 @@
 .PHONY: build install run clean
 
 BINARY_NAME=daily
-INSTALL_PATH=/usr/local/bin
+INSTALL_PATH=$(HOME)/.local/bin
 
 build:
 	go build -o $(BINARY_NAME) .
 
 install: build
+	mkdir -p $(INSTALL_PATH)
 	cp $(BINARY_NAME) $(INSTALL_PATH)/$(BINARY_NAME)
 	chmod +x $(INSTALL_PATH)/$(BINARY_NAME)
 
