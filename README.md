@@ -63,7 +63,7 @@ As you complete each field, it's shown in the "Completed" section above.
 
 ### Navigation
 
-- `enter` - Move to next field
+- Use up or down arrow keys, or `enter` - Move to next field
 - `ctrl+c` - Quit anytime
 
 ## Development
