@@ -4,6 +4,9 @@ A sleek TUI for submitting daily reports.
 
 Built with [Bubble Tea](https://github.com/charmbracelet/bubbletea).
 
+https://github.com/user-attachments/assets/6f06e475-d9fa-4e47-a87e-bc2c1dd3c3a5
+
+
 ## Features
 
 - **Wizard-style interface** - One field at a time for small terminals
@@ -27,6 +30,9 @@ Built with [Bubble Tea](https://github.com/charmbracelet/bubbletea).
 ```bash
 # Build and install
 make install
+
+
+
 
 # Or build locally
 make build
