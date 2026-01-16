@@ -8,7 +8,6 @@ Built with [Bubble Tea](https://github.com/charmbracelet/bubbletea).
 
 - **Wizard-style interface** - One field at a time for small terminals
 - Saves form URL after first use
-- Auto-fills your email from git config
 - Sets today's date by default
 - Fetches issue titles automatically using `gh` CLI (invisible to user)
 - Shows completed fields as you progress
