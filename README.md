@@ -46,13 +46,12 @@ The form URL will be saved to `~/.config/daily/config.json` and reused automatic
 
 The tool presents fields one at a time in wizard-style:
 
-1. **Email** - Auto-filled from `git config user.email`
-2. **Date** - Defaults to today (DD/MM/YYYY format)
-3. **Issue Link** - GitHub issue URL (fetches title automatically)
-4. **Project** - Defaults to "N/A"
-5. **Progress Note** - Simple text input for your update
-6. **Hours Spent** - Number between 0-12
-7. **Submit** - Review and submit
+1. **Date** - Defaults to today (DD/MM/YYYY format)
+2. **Issue Link** - GitHub issue URL (fetches title automatically)
+3. **Project** - Defaults to "N/A"
+4. **Progress Note** - Simple text input for your update
+5. **Hours Spent** - Number between 0-12
+6. **Open** - Opens pre-filled form in browser
 
 As you complete each field, it's shown in the "Completed" section above.
 
