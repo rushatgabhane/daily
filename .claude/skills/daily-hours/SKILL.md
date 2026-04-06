@@ -13,13 +13,13 @@ Log work hours by searching GitHub activity and submitting via the `daily` CLI t
 
 ### 2. Search GitHub activity for those dates
 
-Query across all Expensify repos (App, Auth, Web-Expensify, Bedrock, Expensify, etc.):
+Determine the user's GitHub handle via `gh api user --jq '.login'`. Then query across the user's org repos:
 
 - PRs authored, commented on, or reviewed
 - Issues assigned, commented on, or closed
 - Commits in local repos
 
-Use `gh search prs`, `gh search issues`, `gh api search/issues`, and `git log` with the user's handle `rushatgabhane`.
+Use `gh search prs`, `gh search issues`, `gh api search/issues`, and `git log` with the user's handle.
 
 ### 3. Organize into daily entries
 
