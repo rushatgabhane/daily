@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io"
 	"net/http"
@@ -461,9 +462,73 @@ func extractFormID(url string) (string, error) {
 	return "", fmt.Errorf("invalid Google Forms URL")
 }
 
+func buildPrefilledURL(date, issueLink, issueTitle, progressNote, projectName string, hours float64, formURL string, mappings FieldMapping) string {
+	viewFormURL := strings.Replace(formURL, "/formResponse", "/viewform", 1)
+
+	v := url.Values{}
+	v.Add("usp", "pp_url")
+	v.Add("entry."+mappings.Date, convertDateFormat(date))
+	v.Add("entry."+mappings.IssueLink, issueLink)
+	v.Add("entry."+mappings.IssueTitle, issueTitle)
+	v.Add("entry."+mappings.ProgressNote, progressNote)
+	v.Add("entry."+mappings.ProjectName, projectName)
+	v.Add("entry."+mappings.HoursSpent, fmt.Sprintf("%.1f", hours))
+
+	return viewFormURL + "?" + v.Encode()
+}
+
 func main() {
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, `daily - submit daily reports to Google Forms
+
+Usage:
+  daily                                          Launch interactive TUI
+  daily [flags]                                  Print pre-filled form URL
+
+Flags:
+  -issue string      GitHub issue link (required)
+  -progress string   Progress note (required)
+  -hours float       Hours spent (required)
+  -date string       Date in DD/MM/YYYY format (default: today)
+  -project string    Project name (default: "N/A")
+
+Examples:
+  daily --issue "https://github.com/org/repo/issues/42" --progress "Fixed the bug" --hours 2
+  daily --issue "https://github.com/org/repo/issues/10" --progress "Code review" --hours 1.5 --project "backend"
+`)
+	}
+
+	dateFlag := flag.String("date", time.Now().Format("02/01/2006"), "Date in DD/MM/YYYY format")
+	issueFlag := flag.String("issue", "", "GitHub issue link")
+	projectFlag := flag.String("project", "N/A", "Project name")
+	progressFlag := flag.String("progress", "", "Progress note")
+	hoursFlag := flag.Float64("hours", 0, "Hours spent")
+	flag.Parse()
+
 	cfg, _ := loadConfig()
 
+	// CLI mode: if required flags are provided, print URL and exit
+	if *issueFlag != "" && *progressFlag != "" && *hoursFlag > 0 {
+		if cfg.FormURL == "" || !isFieldMappingComplete(cfg.FieldMappings) {
+			fmt.Fprintln(os.Stderr, "Run 'daily' interactively first to configure your Google Forms URL.")
+			os.Exit(1)
+		}
+		id, err := extractFormID(cfg.FormURL)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, "Invalid form URL in config:", err)
+			os.Exit(1)
+		}
+		formURL := fmt.Sprintf("https://docs.google.com/forms/d/e/%s/formResponse", id)
+		issueTitle, err := getIssueTitle(*issueFlag)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, "Warning: could not fetch issue title:", err)
+		}
+		link := buildPrefilledURL(*dateFlag, *issueFlag, issueTitle, *progressFlag, *projectFlag, *hoursFlag, formURL, cfg.FieldMappings)
+		fmt.Println(link)
+		return
+	}
+
+	// Interactive TUI mode
 	if cfg.FormURL != "" && isFieldMappingComplete(cfg.FieldMappings) {
 		if id, err := extractFormID(cfg.FormURL); err == nil {
 			formURL := fmt.Sprintf("https://docs.google.com/forms/d/e/%s/formResponse", id)
