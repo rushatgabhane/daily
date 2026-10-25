@@ -247,7 +247,7 @@ func openPrefilledForm(date, issueLink, issueTitle, progressNote, projectName st
 	v.Add("entry."+mappings.IssueTitle, issueTitle)
 	v.Add("entry."+mappings.ProgressNote, progressNote)
 	v.Add("entry."+mappings.ProjectName, projectName)
-	v.Add("entry."+mappings.HoursSpent, fmt.Sprintf("%.1f", hours))
+	v.Add("entry."+mappings.HoursSpent, strconv.FormatFloat(hours, 'f', -1, 64))
 
 	return exec.Command("open", viewFormURL+"?"+v.Encode()).Run()
 }
@@ -472,7 +472,7 @@ func buildPrefilledURL(date, issueLink, issueTitle, progressNote, projectName st
 	v.Add("entry."+mappings.IssueTitle, issueTitle)
 	v.Add("entry."+mappings.ProgressNote, progressNote)
 	v.Add("entry."+mappings.ProjectName, projectName)
-	v.Add("entry."+mappings.HoursSpent, fmt.Sprintf("%.1f", hours))
+	v.Add("entry."+mappings.HoursSpent, strconv.FormatFloat(hours, 'f', -1, 64))
 
 	return viewFormURL + "?" + v.Encode()
 }
